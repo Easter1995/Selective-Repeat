@@ -48,10 +48,12 @@ typedef struct {
 static int phl_ready = 0;
 static int has_send_nak = 0;
 
+/* 指向下一个序号 */
 static seqno_ next(seqno_ x) {
 	return x == MAX_SEQ ? 0 : x + 1;
 }
 
+/* 指向上一个序号 */
 static seqno_ prev(seqno_ x) {
 	return x == 0 ? MAX_SEQ : x - 1;
 }
@@ -83,6 +85,7 @@ static void send_data_frame(seqno_ seq) {
 	start_timer(seq, DATA_TIMER);
 }
 
+/* 发送ACK和发送NAK一起处理 */
 static void send_acknak_frame(FRAME_KIND fk, seqno_ seq) {
 	FRAME s;
 
